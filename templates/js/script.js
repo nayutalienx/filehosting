@@ -3,6 +3,7 @@ $('document').ready(function(){
     
     $('#upload_button').click(function(event){
         event.preventDefault();
+        $('.progress').show();
         var file = $("#file").prop('files')[0];
         var formdata = new FormData();
         formdata.append('file',file);
@@ -12,8 +13,9 @@ $('document').ready(function(){
                 // прогресс загрузки на сервер
                 xhr.upload.addEventListener("progress", function(evt){
                     if (evt.lengthComputable) {
-                        var percentComplete = evt.loaded / evt.total;
-                        console.log(percentComplete);
+                        var percentComplete = (evt.loaded / evt.total)*100;
+                        $("#progressbar").attr('aria-valuenow',percentComplete);
+                        $("#progressbar").css('width',percentComplete+'%');
                     }
                 }, false);
                 return xhr;
@@ -25,7 +27,9 @@ $('document').ready(function(){
             processData: false,
             type: "POST",
             success: function(response){
-                console.log(response);
+                $(".modal-body").hide();
+                $("#upload_alert").css('display','block');
+                $("#upload_button").hide();
             }
 
         });
