@@ -1,10 +1,11 @@
 <?php
+namespace Model\DBDriverLibrary;
 class File{
     private $name,$size,$date;
-    public function __construct($name,$size,$date){
+    public function __construct($name,$size){
         $this->name = $name;
         $this->size = $size;
-        $this->date = $date;
+        
     }
     public function getName(){
         return $this->name;

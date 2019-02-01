@@ -11,9 +11,9 @@ abstract class AController{
     public function __construct(){
         $this->app = \Slim\Slim::getInstance();
         $this->uri = $this->getUri();
-        //$this->model = $this->getModel();
+        $this->model = $this->getModel();
         $this->title = 'FILEHOSTING | ';
-    }
+    } 
 
     public function getInstance($prefix){
         $class = '\Controller\\'.ucfirst($prefix).'Controller';
@@ -25,7 +25,7 @@ abstract class AController{
         } else  {
             throw new \Exception('Class not found - '.$class);
         }
-
+        
         return self::$instance;
     }
 
@@ -59,6 +59,6 @@ abstract class AController{
     public function clear_str($var){
         return strip_tags(trim($var));
     }
-    abstract protected function getMenu();
-    abstract protected function display();
+    protected function addFile(){}
+    protected function display(){}
 }

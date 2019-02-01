@@ -1,8 +1,12 @@
 <?php
 define('_Sdef',TRUE);
 require 'vendor/autoload.php';
-require 'Libraries/models/CustomView.php';
-
+require 'Model/CustomView.php';
+define('DB_HOST','localhost');
+define('DB_NAME','filehosting');
+define('DB_TABLE','files');
+define('DB_USER','root');
+define('DB_PASSWORD','');
 \Slim\Slim::registerAutoloader();
 
 function my_autoload($className){
@@ -14,11 +18,12 @@ function my_autoload($className){
 		$fileName .= str_replace('\\',DIRECTORY_SEPARATOR,$namespace).DIRECTORY_SEPARATOR;
 	}
 	$fileName .= strtolower($className).'.php';
+	echo $fileName."<br>";
 	if(file_exists($fileName)){
 		require_once $fileName;
 	}
 	
-
+ 
 }
 
 spl_autoload_register('my_autoload');
@@ -43,6 +48,7 @@ $app->get('/',function() use($app){
 
 $app->post('/add', function(){
 	$o = \Controller\AController::getInstance('add');
+
 	$o->execute(array('FILES' => $_FILES));
 	
 });
