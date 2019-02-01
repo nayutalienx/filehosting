@@ -18,7 +18,7 @@ function my_autoload($className){
 		$fileName .= str_replace('\\',DIRECTORY_SEPARATOR,$namespace).DIRECTORY_SEPARATOR;
 	}
 	$fileName .= strtolower($className).'.php';
-	echo $fileName."<br>";
+	
 	if(file_exists($fileName)){
 		require_once $fileName;
 	}
@@ -39,10 +39,10 @@ $app = new \Slim\Slim(array(
 
 
 $app->get('/',function() use($app){
-	$o = \Controller\AController::getInstance('index');
+	$o = \Controller\AController::getInstance('list');
 	$o->execute();
 	
-	$app->render('index.html');
+	
 	
 })->name('home');
 
@@ -51,6 +51,11 @@ $app->post('/add', function(){
 
 	$o->execute(array('FILES' => $_FILES));
 	
+});
+
+$app->get("/file/:id",function($id){
+	$o = \Controller\AController::getInstance('filepage');
+	$o->execute(array('id' => $id));
 });
 
 

@@ -11,4 +11,12 @@ class DBDriver{
     public function addFile($file){
         $this->gateway->addFile($file);
     }
+    public function getFiles(){
+        $result = $this->gateway->getFiles();
+        return $result;
+    }
+    public function getFile($id){
+        $result = $this->gateway->getFile($id);
+        return $result;
+    }
 }

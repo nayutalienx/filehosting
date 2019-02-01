@@ -60,5 +60,5 @@ abstract class AController{
         return strip_tags(trim($var));
     }
     protected function addFile(){}
-    protected function display(){}
+    protected function display($files){}
 }

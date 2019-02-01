@@ -11,4 +11,12 @@ class Model{
         $this->driver->addFile($file);
 
     }
+    public function getFiles(){
+        $result = $this->driver->getFiles();
+        return $result;
+    }
+    public function getFile($id){
+        $result = $this->driver->getFile($id);
+        return $result;
+    }
 }
