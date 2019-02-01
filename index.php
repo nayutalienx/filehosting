@@ -1,9 +1,28 @@
 <?php
-define('_SDef',TRUE);
+define('_Sdef',TRUE);
 require 'vendor/autoload.php';
-require 'Libraries/CustomView.php';
-require 'Controller/AddController.php';
+require 'Libraries/models/CustomView.php';
+
 \Slim\Slim::registerAutoloader();
+
+function my_autoload($className){
+	$fileName = __DIR__.DIRECTORY_SEPARATOR;
+	$namespace = "";
+	if($lastNsPost = strripos($className, '\\')){
+		$namespace = substr($className, 0,$lastNsPost);
+		$className = substr($className,$lastNsPost+1);
+		$fileName .= str_replace('\\',DIRECTORY_SEPARATOR,$namespace).DIRECTORY_SEPARATOR;
+	}
+	$fileName .= strtolower($className).'.php';
+	if(file_exists($fileName)){
+		require_once $fileName;
+	}
+	
+
+}
+
+spl_autoload_register('my_autoload');
+
 $app = new \Slim\Slim(array(
     'templates.path'=>'templates',
     'view'=>new CustomView
@@ -15,10 +34,18 @@ $app = new \Slim\Slim(array(
 
 
 $app->get('/',function() use($app){
-	$app->render('index.html',array('name' => 'default', 'id' => 23));
+	$o = \Controller\AController::getInstance('index');
+	$o->execute();
+	
+	$app->render('index.html');
+	
 })->name('home');
 
-$app->post('/add', \Controller\AddController::index());
+$app->post('/add', function(){
+	$o = \Controller\AController::getInstance('add');
+	$o->execute(array('FILES' => $_FILES));
+	
+});
 
 
 $app->run();
